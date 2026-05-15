@@ -1,7 +1,9 @@
 
+
 # Emperor Cosint Test - Solution
 
 This is just a brief explanation of the changes I made during this coding test. This should help you understand what I have done and what steps I have taken. The objective was to integrate an external XML feed into the /news/ page, with the feed URL managed through the Umbraco CMS back-office.
+
 **Admin login: admin@admin.com / MW>Y5XSxG?**
 
 
@@ -18,8 +20,10 @@ A model representing a single parsed article from the feed.
 -   `HasValidLink` applies the same validation to article links
 
 ### `NewsFeedService.cs`
-
 The service that fetches and parses the XML feed. Registered in `Program.cs` via dependency injection and injected directly into the Razor view.
+ - Uses IHttpClientFactory (best practice — avoids socket exhaustion)
+ - 10-second timeout to protect against slow/unresponsive feeds
+ - Entire fetch wrapped in try/catch — returns an empty list on any failure (network error, timeout, malformed XML,
 
 ### `ExternalNewsPage.cshtml`
 
@@ -69,7 +73,7 @@ The implementation satisfies all stated requirements:
     
 -   Articles sorted by descending date
     
--   Feed failures (timeout, malformed XML, bad items) handled gracefully
+-   Feed failures (timeout, malformed XML, bad items) handled
     
 -   XSS and injection risks from feed content mitigated
     

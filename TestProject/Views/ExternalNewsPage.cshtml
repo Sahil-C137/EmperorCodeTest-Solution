@@ -1,0 +1,104 @@
+﻿@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ExternalNewsPage>
+@inject NewsFeedService NewsFeedService
+@{
+    Layout = "master.cshtml";
+    var feedUrl = Model.Value<string>("sourceUrl");
+    var articles = await NewsFeedService.GetArticlesAsync(feedUrl);
+}
+
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+<section class="section">
+
+  <div class="container">
+    <div class="col-md-12">
+      <article>
+        @await Html.GetBlockGridHtmlAsync(Model, "bodyText")
+      </article>
+      <div class="news-container">
+
+        <article class="news-item">
+          <img src="/images/300.jpg" alt="Article Title">
+          <div class="news-content">
+            <h2>Article Title</h2>
+            <p class="date">12th November 2025</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus feugiat dolor. Cras turpis turpis...</p>
+            <a href="#" class="read-more">read more</a>
+          </div>
+        </article>
+        <article class="news-item">
+          <img src="/images/300.jpg" alt="Article Title">
+          <div class="news-content">
+            <h2>Article Title</h2>
+            <p class="date">12th November 2025</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus feugiat dolor. Cras turpis turpis...</p>
+            <a href="#" class="read-more">read more</a>
+          </div>
+        </article>
+        <article class="news-item">
+          <img src="/images/300.jpg" alt="Article Title">
+          <div class="news-content">
+            <h2>Article Title</h2>
+            <p class="date">12th November 2025</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus feugiat dolor. Cras turpis turpis...</p>
+            <a href="#" class="read-more">read more</a>
+          </div>
+        </article>
+        <article class="news-item">
+          <img src="/images/300.jpg" alt="Article Title">
+          <div class="news-content">
+            <h2>Article Title</h2>
+            <p class="date">12th November 2025</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus feugiat dolor. Cras turpis turpis...</p>
+            <a href="#" class="read-more">read more</a>
+          </div>
+        </article>
+        <article class="news-item">
+          <img src="/images/300.jpg" alt="Article Title">
+          <div class="news-content">
+            <h2>Article Title</h2>
+            <p class="date">12th November 2025</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus feugiat dolor. Cras turpis turpis...</p>
+            <a href="#" class="read-more">read more</a>
+          </div>
+        </article>
+@foreach (var article in articles)
+{
+    var title = string.IsNullOrWhiteSpace(article.Title) ? "Untitled" : article.Title;
+
+    <article class="news-item">
+
+        @if (article.HasValidImageUrl)
+        {
+            <img src="@article.ImageUrl" alt="@title" loading="lazy" />
+        }
+        else
+        {
+            <!-- Fallback image to maintain a consistent grid layout -->
+            <img src="/images/placeholder-300.jpg" alt="No image available" loading="lazy" />
+        }
+
+        <div class="news-content">
+            <h2>@title</h2>
+            <p class="date">@article.FormattedDate</p>
+            @if (!string.IsNullOrWhiteSpace(article.TruncatedDescription))
+            {
+                <p>@article.TruncatedDescription</p>
+            }
+            @if (article.HasValidLink)
+            {
+                <a href="@article.Link" target="_blank" rel="noopener noreferrer" class="read-more">read more</a>
+            }
+        </div>
+
+    </article>
+}
+
+      </div>
+    </div>
+  </div>
+</section>
+<link rel="stylesheet" href="@Url.Content("~/css/umbraco-starterkit-blockgrid.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/newslist.css")" />

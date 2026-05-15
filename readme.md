@@ -21,9 +21,9 @@ A model representing a single parsed article from the feed.
 
 ### `NewsFeedService.cs`
 The service that fetches and parses the XML feed. Registered in `Program.cs` via dependency injection and injected directly into the Razor view.
- - Uses IHttpClientFactory (best practice — avoids socket exhaustion)
+ - Uses IHttpClientFactory (best practice to avoids socket exhaustion)
  - 10-second timeout to protect against slow/unresponsive feeds
- - Entire fetch wrapped in try/catch — returns an empty list on any failure (network error, timeout, malformed XML,
+ - Entire fetch wrapped in try/catch to returns an empty list on any failure (network error, timeout, malformed XML,
 
 ### `ExternalNewsPage.cshtml`
 

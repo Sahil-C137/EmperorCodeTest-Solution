@@ -1,6 +1,6 @@
 
 
-# Emperor Cosint Test - Solution
+# Emperor Code Test - Solution
 
 This is just a brief explanation of the changes I made during this coding test. This should help you understand what I have done and what steps I have taken. The objective was to integrate an external XML feed into the /news/ page, with the feed URL managed through the Umbraco CMS back-office.
 
@@ -28,7 +28,7 @@ The service that fetches and parses the XML feed. Registered in `Program.cs` via
 ### `ExternalNewsPage.cshtml`
 
 The Razor view. Injects `NewsFeedService`, reads the `feedUrl` property from the Umbraco content model, and renders articles using the site's existing CSS classes.
-
+There were some pre-existing hardcoded article cards instead of deleating them I renders the live feed articles alongside them, treating the static cards as production components rather than removing them.
 
 ### `Program.cs`
 
@@ -39,7 +39,7 @@ Two additions for service registration: `IHttpClientFactory` and `NewsFeedServic
 ## Edge Cases Handled
 
 The implementation was tested against a dedicated XML feed with 18 items covering the following scenarios.
-Here is the link to the XML file used for thr testing: https://raw.githubusercontent.com/Sahil-C137/XML-Test-Cases/refs/heads/main/test-feed.xml
+Here is the link to the XML file used for the testing the articles: https://raw.githubusercontent.com/Sahil-C137/XML-Test-Cases/refs/heads/main/test-feed.xml
 1.  Empty pubDate
 2.  Invalid date ("banana")
 3.  Future date (year 2100)
